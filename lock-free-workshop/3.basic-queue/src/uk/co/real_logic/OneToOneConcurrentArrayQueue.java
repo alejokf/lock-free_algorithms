@@ -30,16 +30,31 @@ public class OneToOneConcurrentArrayQueue<E> implements Queue<E>
 
     public boolean offer(final E e)
     {
-        // TODO
-
-        return false;
+    	if(e == null) {
+    		throw new NullPointerException("item cannot be null");
+    	}
+    	
+    	if((tail - head) >= buffer.length) {
+    		return false;
+    	} 
+    	
+		buffer[(int)(tail % buffer.length)] = e;
+		tail++;
+		return true;
     }
 
     public E poll()
     {
         // TODO
-
-        return null;
+    	if(tail == head) {
+    		return null;
+    	} else {
+    		int i = (int)(head % buffer.length);
+    		E e = buffer[i];
+    		buffer[i] = null;
+    		head++;
+    		return e;
+    	}
     }
 
     public E remove()
