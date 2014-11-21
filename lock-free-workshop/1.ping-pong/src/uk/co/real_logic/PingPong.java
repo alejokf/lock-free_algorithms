@@ -33,7 +33,10 @@ public final class PingPong
     {
         public void run()
         {
-            // TODO
+        	for (int i = 0; i < REPETITIONS; i++) {
+				pingValue = i;
+				while (pongValue != i) {}
+			}
         }
     }
 
@@ -41,7 +44,10 @@ public final class PingPong
     {
         public void run()
         {
-            // TODO
+        	for (int i = 0; i < REPETITIONS; i++) {
+				while (pingValue != i) {}
+				pongValue = i;
+			}
         }
     }
 }
