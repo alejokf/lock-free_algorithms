@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="test">
+    <archive path="D:/cursos/reactconf/lock-free_algorithms/lock-free-workshop/4.making-progress-queue/lib/test/junit-4.5.jar" />
+  </library>
+</eclipse-userlibraries>
+

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="ping-pong" default="all" basedir=".">
+
+    <property name="dir.main.src" value="src"/>
+    <property name="dir.main.build" value="target/java/classes"/>
+
+    <path id="test.classpath">
+        <pathelement location="${dir.main.build}"/>
+    </path>
+
+    <target name="clean"
+            description="Remove the generated files">
+        <delete dir="target"/>
+    </target>
+
+    <target name="prepare">
+        <mkdir dir="${dir.main.build}"/>
+    </target>
+
+    <target name="build"
+            depends="prepare"
+            description="Build main source code">
+        <javac destdir="${dir.main.build}"
+               includeAntRuntime="false"
+               debug="true"
+               nowarn="true">
+            <src path="${dir.main.src}"/>
+        </javac>
+    </target>
+
+    <target name="run"
+            depends="build"
+            description="Run a test">
+        <java classname="uk.co.real_logic.PingPong"
+              fork="yes">
+            <jvmarg value="-server"/>
+            <classpath refid="test.classpath"/>
+        </java>
+    </target>
+
+
+    <target name="all" depends="clean, build, run"/>
+
+</project>
