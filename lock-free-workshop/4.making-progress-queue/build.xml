@@ -83,6 +83,12 @@
         </java>
     </target>
 
+	<target name="deploy" depends="build">
+		<jar destfile="deploy/making-progress-queue.jar" basedir="${dir.main.build}" includes="**" 
+			excludes="**.cdi **/CVS/ **/*.cdi **/*~ **/*.contrib **/*.keep **/*.rvi **/*.svn **/*.git"> 
+		</jar>
+	</target>
+
     <target name="all" depends="clean, build, test, perf:test"/>
 
 </project>

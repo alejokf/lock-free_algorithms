@@ -38,6 +38,15 @@
         </java>
     </target>
 
+	<target name="deploy" depends="build">
+		<jar destfile="deploy/condition-variables.jar" basedir="${dir.main.build}" includes="**" 
+			excludes="**.cdi **/CVS/ **/*.cdi **/*~ **/*.contrib **/*.keep **/*.rvi **/*.svn **/*.git"> 
+			<manifest>
+				<attribute name="Main-Class" value="uk.co.real_logic.ConditionVariablesPingPong"/>
+			</manifest>
+		</jar>
+	</target>
+
 
     <target name="all" depends="clean, build, run"/>
 

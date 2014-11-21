@@ -1,1 +1,5 @@
 workspace/
+lock-free-workshop/**/deploy/
+lock-free-workshop/**/target/
+lock-free-workshop/**/ping-pong.jar
+lock-free-workshop/**/ping-pong.jardesc
