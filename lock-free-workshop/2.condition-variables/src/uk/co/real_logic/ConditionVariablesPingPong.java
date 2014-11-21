@@ -43,7 +43,27 @@ public class ConditionVariablesPingPong
     {
         public void run()
         {
-            // TODO
+        	for (int i = 0; i < REPETITIONS; i++) {
+				pingLock.lock();
+				try {
+					pingValue = i;
+					pingCondition.signal();
+				} finally {
+					pingLock.unlock();
+				}
+				
+				pongLock.lock();
+				try {
+					while(pongValue != i) {
+						pongCondition.await();
+					}
+				} catch (InterruptedException e) {
+					break;
+				} finally {
+					pongLock.unlock();
+				}
+        		
+			}
         }
     }
 
@@ -51,7 +71,26 @@ public class ConditionVariablesPingPong
     {
         public void run()
         {
-            // TODO
+        	for (int i = 0; i < REPETITIONS; i++) {
+        		pingLock.lock();
+        		try {
+        			while(pingValue != i) {
+        				pingCondition.await();
+        			}
+        		} catch (InterruptedException e) {
+        			break;
+        		} finally {
+        			pingLock.unlock();
+        		}
+        		
+        		pongLock.lock();
+        		try {
+					pongValue = i;
+					pongCondition.signal();
+				} finally {
+					pongLock.unlock();
+				}
+        	}
         }
     }
 }
