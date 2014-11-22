@@ -36,17 +36,43 @@ public class ManyToOneConcurrentArrayQueue<E> implements Queue<E>
 
     public boolean offer(final E e)
     {
-        // TODO
+    	if(e == null) {
+    		throw new NullPointerException("item cannot be null");
+    	}
+    	
+    	long currentTail;
+    	final long bufferLimit = head.get() + capacity;
+    	do {
+    		currentTail = tail.get();
+    		if(currentTail >= bufferLimit) {
+    			return false;
+    		}
+    	} while (!tail.compareAndSet(currentTail, currentTail + 1));
 
-        return true;
+        final int i = (int)currentTail & mask;
+        buffer.lazySet(i, e);
+    	
+    	return true;
     }
 
     @SuppressWarnings("unchecked")
     public E poll()
     {
-        // TODO
-
-        return null;
+    	final long currentHead = head.get();
+    	if(currentHead == tail.get()) {
+    		return null;
+    	}
+    	
+    	final int i = (int)currentHead & mask;
+    	E item;
+    	do {
+    		item = buffer.get(i);
+    	} while (null == item);
+    	
+    	buffer.lazySet(i, null);
+    	head.lazySet(currentHead + 1);
+    	
+        return item;
     }
 
     public E remove()
