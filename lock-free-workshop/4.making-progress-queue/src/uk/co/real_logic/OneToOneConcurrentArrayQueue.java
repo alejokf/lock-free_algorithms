@@ -40,16 +40,32 @@ public class OneToOneConcurrentArrayQueue<E> implements Queue<E>
 
     public boolean offer(final E e)
     {
-        // TODO
-
-        return false;
+    	if(e == null) {
+    		throw new NullPointerException("item cannot be null");
+    	}
+    	
+    	final long currentTail = tail.get();
+    	if((currentTail - head.get()) >= capacity) {
+    		return false;
+    	} 
+    	
+		buffer[(int)currentTail & mask] = e;
+		tail.lazySet(currentTail + 1);
+		return true;
     }
 
     public E poll()
     {
-        // TODO
-
-        return null;
+    	final long currentHead = head.get();
+    	if(tail.get() == currentHead) {
+    		return null;
+    	}
+    	
+		int i = (int)currentHead & mask;
+		E e = buffer[i];
+		buffer[i] = null;
+		head.lazySet(currentHead + 1);
+		return e;
     }
 
     public E remove()
